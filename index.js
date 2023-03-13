@@ -35,3 +35,26 @@ while(!entrySuccessful)
 
 const result = secondNumberFloat * firstNumberFloat;
 console.log("The result is: " + result);
+
+
+// create a function called request a number which returns the requested number
+/*
+function RequestNumber()
+{
+    entrySuccessful = false;
+    while(!entrySuccessful)
+    {
+        const secondNumber = readline.prompt();
+        var secondNumberFloat = parseFloat(secondNumber);
+        if(!isNaN(secondNumberFloat))
+        {
+            return secondNumberFloat
+        }
+        else
+        {
+            console.log("wrong entry format")
+        }
+    }
+
+}
+*/
