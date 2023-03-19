@@ -1,45 +1,19 @@
 const readline = require('readline-sync');
 const allowedOperators = ['+', '-', '*', '/'];
+var isSessionOn = true;
 
-console.log('Please chose the mathematical operation');
-const operator = RequestOperator();
+while(isSessionOn){
+    const operator = RequestOperator();
 
-console.log('Please choose how many numbers to ' + operator);
-const numberOfElements = RequestInteger();
-var numberArray = Array(numberOfElements);
+    var numberArray = RequestSizeOfCalculation(operator);
 
-console.log('Please enter the numbers');
-for(let i = 0; i < numberArray.length; i++){
-    numberArray[i] = RequestNumber();
+    InputNumbers(numberArray);
+
+    CalculateResult(numberArray, operator);
+
+    ContinueSession();
 }
 
-var result = numberArray[0];
-switch(operator){
-    case '+':
-        for(let i = 1; i < numberArray.length; i++){
-            result += numberArray[i];
-        }
-        break;
-    
-    case '-':
-        for(let i = 1; i < numberArray.length; i++){
-            result -= numberArray[i];
-        }
-        break;
-    
-    case '*':
-        for(let i = 1; i < numberArray.length; i++){
-            result *= numberArray[i];
-        }
-        break;
-    
-    case '/':
-        for(let i = 1; i < numberArray.length; i++){
-            result /= numberArray[i];
-        }
-        break;
-}
-console.log("The result is: " + result);
 
 
 // create a function called request a number which returns the requested number
@@ -62,8 +36,17 @@ function RequestNumber()
 
 }
 
+function InputNumbers(emptyNumberArray)
+{
+    console.log('Please enter the numbers');
+    for(let i = 0; i < emptyNumberArray.length; i++){
+        emptyNumberArray[i] = RequestNumber();
+    }
+}
+
 function RequestOperator()
 {
+    console.log('Please chose the mathematical operation');
     entrySuccessful = false;
     while(!entrySuccessful)
     {
@@ -79,8 +62,9 @@ function RequestOperator()
     }
 }
 
-function RequestInteger()
+function RequestSizeOfCalculation(operatorString)
 {
+    console.log('Please choose how many numbers to ' + operatorString);
     entrySuccessful = false;
     while(!entrySuccessful)
     {
@@ -88,7 +72,60 @@ function RequestInteger()
         let number = parseInt(entry);
         if(!isNaN(number))
         {
-            return number
+            return Array(number)
+        }
+        else
+        {
+            console.log("wrong entry format")
+        }
+    }
+}
+
+function CalculateResult(inputArray, operatorString){
+    var result = inputArray[0];
+    switch(operatorString){
+    case '+':
+        for(let i = 1; i < inputArray.length; i++){
+            result += inputArray[i];
+        }
+        break;
+    
+    case '-':
+        for(let i = 1; i < inputArray.length; i++){
+            result -= inputArray[i];
+        }
+        break;
+    
+    case '*':
+        for(let i = 1; i < inputArray.length; i++){
+            result *= inputArray[i];
+        }
+        break;
+    
+    case '/':
+        for(let i = 1; i < inputArray.length; i++){
+            result /= inputArray[i];
+        }
+        break;
+    }
+    console.log("The result is: " + result);
+}
+
+function ContinueSession(){
+    console.log("Do you want to proceed with another calculation? [Y / N]")
+    entrySuccessful = false;
+    while(!entrySuccessful)
+    {
+        let entry = readline.prompt();
+        if(entry == 'Y')
+        {
+            entrySuccessful = true;
+            isSessionOn = true
+        }
+        else if(entry == 'N')
+        {
+            entrySuccessful = true;
+            isSessionOn = false;
         }
         else
         {
