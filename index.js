@@ -1,8 +1,58 @@
 const readline = require('readline-sync');
 const allowedOperators = ['+', '-', '*', '/'];
+const vowels = ['A', 'E', 'I', 'O', 'U']
+function AnalysisObject(){
+    for(var letter of vowels)
+    {
+        this[letter] = 0;
+    }
+}
+const ARITHMETIC_MODE = '1';
+const VOWEL_COUNTING_MODE = '2';
 var isSessionOn = true;
 
 while(isSessionOn){
+    const calculationMode = RequestCalculationMode();
+    if(calculationMode === ARITHMETIC_MODE){
+        PerformArithmeticCalculation();
+    }
+    else if(calculationMode === VOWEL_COUNTING_MODE){
+        PerformVowelCountingCalculation();
+    }
+    ContinueSession();
+}
+
+function RequestCalculationMode()
+{
+    console.log('Please your calculation mode \n');
+    console.log('1) Arithmetic mode \n');
+    console.log('2) Vowel counting \n');
+    entrySuccessful = false;
+    while(!entrySuccessful)
+    {
+        let entry = readline.prompt();
+        if(entry === ARITHMETIC_MODE | entry === VOWEL_COUNTING_MODE)
+        {
+            return entry
+        }
+        else
+        {
+            console.log("wrong entry format")
+        }
+    }
+}
+
+function PerformVowelCountingCalculation()
+{
+    const entryString = RequestString();
+
+    const analysisObject = AnalyzeString(entryString);
+
+    ListVowels(analysisObject);
+}
+
+function PerformArithmeticCalculation()
+{
     const operator = RequestOperator();
 
     var numberArray = RequestSizeOfCalculation(operator);
@@ -10,13 +60,31 @@ while(isSessionOn){
     InputNumbers(numberArray);
 
     CalculateResult(numberArray, operator);
-
-    ContinueSession();
 }
 
+function AnalyzeString(inputString){
+    // capitalize all letters
+    let processedString = inputString.toUpperCase();
+    let analysis = new AnalysisObject();
+    console.log(analysis);
+    for(var i = 0; i < processedString.length; i++)
+    {
+        if(vowels.includes(processedString[i]))
+        {
+            analysis[processedString[i]] += 1;
+        }
+    }
+    return analysis;
+}
 
+function ListVowels(analysis)
+{
+    for(var letter of vowels)
+    {
+        console.log(letter + ' : ' + analysis[letter]);
+    }
+}
 
-// create a function called request a number which returns the requested number
 function RequestNumber()
 {
     entrySuccessful = false;
@@ -34,6 +102,13 @@ function RequestNumber()
         }
     }
 
+}
+
+function RequestString()
+{
+    console.log("Enter a string:")
+    let entry = readline.prompt();
+    return entry;
 }
 
 function InputNumbers(emptyNumberArray)
@@ -108,7 +183,7 @@ function CalculateResult(inputArray, operatorString){
         }
         break;
     }
-    console.log("The result is: " + result);
+    console.log(`The result is ${result}`);
 }
 
 function ContinueSession(){
