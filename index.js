@@ -6,6 +6,32 @@ function AnalysisObject(){
     {
         this[letter] = 0;
     }
+
+    this.AnalyzeString = function(inputString){
+        this.Reset();
+        let processedString = inputString.toUpperCase();
+        for(var i = 0; i < processedString.length; i++)
+        {
+            if(vowels.includes(processedString[i]))
+            {
+                this[processedString[i]] += 1;
+            }
+        }
+    }
+
+    this.Reset = function(){
+        for(var letter of vowels)
+        {
+            this[letter] = 0;
+        }
+    }
+
+    this.ListVowels = function(){
+        for(var letter of vowels)
+        {
+            console.log(letter + ' : ' + this[letter]);
+        }
+    }
 }
 const ARITHMETIC_MODE = '1';
 const VOWEL_COUNTING_MODE = '2';
@@ -46,9 +72,11 @@ function PerformVowelCountingCalculation()
 {
     const entryString = RequestString();
 
-    const analysisObject = AnalyzeString(entryString);
+    const analysisObject = new AnalysisObject();
+    
+    analysisObject.AnalyzeString(entryString);
 
-    ListVowels(analysisObject);
+    analysisObject.ListVowels();
 }
 
 function PerformArithmeticCalculation()
@@ -60,29 +88,6 @@ function PerformArithmeticCalculation()
     InputNumbers(numberArray);
 
     CalculateResult(numberArray, operator);
-}
-
-function AnalyzeString(inputString){
-    // capitalize all letters
-    let processedString = inputString.toUpperCase();
-    let analysis = new AnalysisObject();
-    console.log(analysis);
-    for(var i = 0; i < processedString.length; i++)
-    {
-        if(vowels.includes(processedString[i]))
-        {
-            analysis[processedString[i]] += 1;
-        }
-    }
-    return analysis;
-}
-
-function ListVowels(analysis)
-{
-    for(var letter of vowels)
-    {
-        console.log(letter + ' : ' + analysis[letter]);
-    }
 }
 
 function RequestNumber()
